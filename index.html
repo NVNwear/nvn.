@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NVИ | Premium Sportswear</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: #050505; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; scroll-behavior: smooth; }
+        .announcement-bar { background-color: #ffffff; color: #000000; text-align: center; padding: 8px 10px; font-size: 11px; font-weight: 700; letter-spacing: 1px; }
+        .main-header { background-color: #050505; border-bottom: 1px solid #1a1a1a; position: sticky; top: 0; z-index: 1000; }
+        .header-container { max-width: 1200px; margin: 0 auto; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo h1 { font-size: 28px; font-weight: 900; letter-spacing: 4px; cursor: pointer; }
+        .nav-menu a { color: #888888; text-decoration: none; margin: 0 12px; font-size: 13px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .nav-menu a:hover, .nav-menu a.active { color: #ffffff; }
+        .header-icons { display: flex; align-items: center; }
+        .header-icons i { font-size: 20px; margin-left: 15px; cursor: pointer; }
+        .search-container { display: none; background-color: #0d0d0d; border-bottom: 1px solid #1a1a1a; padding: 15px 20px; text-align: center; }
+        .search-container.active { display: block; }
+        .search-container input { width: 100%; max-width: 600px; background: #151515; border: 1px solid #333; padding: 10px 15px; color: #fff; border-radius: 4px; }
+        .page-section { display: none; max-width: 1200px; margin: 50px auto; padding: 0 20px; }
+        .page-section.active-section { display: block; }
+        .hero-section { padding: 120px 20px; text-align: center; background-color: #0d0d0d; border-bottom: 1px solid #1a1a1a; }
+        .btn-primary { display: inline-block; background-color: #ffffff; color: #000000; padding: 12px 35px; font-weight: bold; cursor: pointer; }
+        .section-title { text-align: center; font-size: 22px; letter-spacing: 2px; margin-bottom: 35px; text-transform: uppercase; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
+        .product-card { background-color: #0f0f0f; border: 1px solid #1a1a1a; padding: 15px; display: flex; flex-direction: column; justify-content: space-between; }
+        .product-image { width: 100%; height: 320px; background-color: #111; overflow: hidden; margin-bottom: 15px; }
+        .product-image img { width: 100%; height: 100%; object-fit: cover; }
+        .product-info { text-align: center; margin-bottom: 15px; }
+        .btn-buy { background-color: #25d366; color: #ffffff; border: none; width: 100%; padding: 14px; font-weight: 700; cursor: pointer; }
+        .main-footer { background-color: #0a0a0a; border-top: 1px solid #1a1a1a; padding: 40px 20px; text-align: center; margin-top: 100px; }
+    </style>
+</head>
+<body>
+
+    <div class="announcement-bar"><p>FREE SHIPPING ON ALL ORDERS | NVИ SPORTSWEAR</p></div>
+
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo"><h1 onclick="showSection('home')">NVИ</h1></div>
+            <nav class="nav-menu">
+                <a id="nav-home" onclick="showSection('home')" class="active">HOME</a>
+                <a id="nav-new-arrivals" onclick="showSection('new-arrivals')">NEW ARRIVALS</a>
+            </nav>
+            <div class="header-icons"><i class="ri-search-line" onclick="toggleSearch()"></i></div>
+        </div>
+    </header>
+
+    <div id="searchBar" class="search-container">
+        <input type="text" id="searchInput" placeholder="Search products..." onkeyup="searchProducts()">
+    </div>
+
+    <!-- Home Section -->
+    <div id="section-home" class="page-section active-section">
+        <section class="hero-section">
+            <h2>PERFORMANCE IS EVERYTHING</h2>
+            <span class="btn-primary" onclick="showSection('new-arrivals')">SHOP NOW</span>
+        </section>
+    </div>
+
+    <!-- New Arrivals Section -->
+    <div id="section-new-arrivals" class="page-section">
+        <h3 class="section-title">NEW ARRIVALS</h3>
+        <div class="products-grid" id="new-arrivals-grid"></div>
+    </div>
+
+    <footer class="main-footer">
+        <p>&copy; 2026 NVИ Store. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const myProducts = [
+            { name: "CRYSTAL-SWORD", price: "625 EGP" },
+            { name: "BLUE-SWORD", price: "625 EGP" },
+            { name: "RED-SWORD", price: "625 EGP" },
+            { name: "GOTHIC-SPIDER", price: "550 EGP" },
+            { name: "SKELETON", price: "550 EGP" },
+            { name: "FULL-BLACK", price: "450 EGP" },
+        
+        ];
+
+        const arrivalsGrid = document.getElementById('new-arrivals-grid');
+        let productsHTML = '';
+
+        myProducts.forEach((item, index) => {
+            let i = index + 1;
+            productsHTML += `
+                <div class="product-card" data-name="${item.name.toLowerCase()}">
+                    <div class="product-image">
+                        <img src="images/product-${i}.jpg" alt="${item.name}">
+                    </div>
+                    <div class="product-info">
+                        <h4>${item.name}</h4>
+                        <p class="price">${item.price}</p>
+                    </div>
+                    <button class="btn-buy" onclick="orderViaWhatsApp('${item.name}', '${item.price}')">
+                        ORDER VIA WHATSAPP
+                    </button>
+                </div>
+            `;
+        });
+        arrivalsGrid.innerHTML = productsHTML;
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active-section'));
+            document.getElementById(`section-${sectionId}`).classList.add('active-section');
+        }
+
+        function toggleSearch() { document.getElementById('searchBar').classList.toggle('active'); }
+
+        function orderViaWhatsApp(name, price) {
+            const url = `https://wa.me/201200340548?text=Hello, I would like to purchase: ${name} - ${price}`;
+            window.open(url, '_blank');
+        }
+    </script>
+</body>
+</html>
